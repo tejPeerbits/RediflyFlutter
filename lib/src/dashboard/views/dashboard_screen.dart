@@ -70,9 +70,9 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                     ),
                   ),
                   Expanded(
-                    child: AddDocuments(
-                      documents: widget.appModel.documents,
-                    ),
+                    // child: AddDocuments(
+                    //   documents: widget.appModel.documents,
+                    // ),
                   ),
                 ],
               ),
