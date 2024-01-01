@@ -5,21 +5,25 @@ import '../../../common/core/app_colors.dart';
 import '../../../common/core/app_image.dart';
 import '../../../common/core/app_text_style.dart';
 import '../../../common/core/responsive.dart';
-import 'login_aircraft_selection_screen.dart';
+import '../../../common/widgets/app_datepicker_textfield.dart';
+import '../../../common/widgets/app_dropdown_textfield.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class LoginAircraftSelectScreen extends StatefulWidget {
+  const LoginAircraftSelectScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<LoginAircraftSelectScreen> createState() =>
+      _LoginAircraftSelectScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
-  TextEditingController emailTextController =
-      TextEditingController(text: "murali@redifly.com");
-  TextEditingController passwordTextController =
-      TextEditingController(text: "MurS1234-");
-
+class _LoginAircraftSelectScreenState extends State<LoginAircraftSelectScreen> {
+  final TextEditingController dateController =
+      TextEditingController(text: "2023/12/24");
+  final List<String> dropDownListDynamic = [
+    "E190-1 Pat Test",
+    "E290-1 Pat Test",
+  ];
+  String selectedDropdownValue = "E190-1 Pat Test";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,58 +60,65 @@ class _LoginScreenState extends State<LoginScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  controllers(context,
-                      title: "Username",
-                      hint: "Enter Username here...",
-                      controller: emailTextController),
-                  controllers(context,
-                      title: "Password",
-                      hint: "Enter Password here...",
-                      controller: passwordTextController,
-                      obscureText: true),
-                  const SizedBox(height: 9.0),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      MaterialButton(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5.r),
-                          side: const BorderSide(color: Colors.white),
-                        ),
-                        onPressed: () {},
-                        child: Text(
-                          'ADLogin',
-                          style: AppTextStyle.appTextStyleSmall(context),
-                        ),
-                      ),
-                      const Spacer(),
-                      MaterialButton(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5.r),
-                            side: const BorderSide(color: Colors.white)),
-                        onPressed: () {
-                          // var loginModel = LoginModel(
-                          //     clientId: "A82444C1-17BA-47F5-B086-E42C25FAB241",
-                          //     email: emailTextController.text.trim().toString(),
-                          //     password:
-                          //         passwordTextController.text.trim().toString(),
-                          //     userInfo: "",
-                          //     accessToken: "");
-                          // Repository.login(context, loginModel);
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  const LoginAircraftSelectScreen(),
-                            ),
-                          );
-                        },
-                        child: Text(
-                          'Continue',
-                          style: AppTextStyle.appTextStyleSmall(context),
-                        ),
-                      ),
+                  AppDropDownTextField(
+                    isRequired: true,
+                    textFieldName: "Please select aircraft",
+                    value: selectedDropdownValue,
+                    // hintText: "asas",
+                    dropDownItemsList: const [
+                      "E190-1 Pat Test",
+                      "E290-1 Pat Test",
                     ],
+                    onChanged: (selectedValue) {
+                      setState(() {
+                        selectedDropdownValue = selectedValue!;
+                      });
+                      print(selectedValue);
+                    },
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  SizedBox(
+                    width: 250,
+                    child: AppDatePickerTextField(
+                      isRequired: false,
+                      textFieldName: "Load data as of",
+                      controller: dateController,
+                      selectedValue: (value) {
+                        print("date value $value");
+                      },
+                      hintText: "dd-mm-yyyy",
+                    ),
+                  ),
+                  const SizedBox(height: 9.0),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: MaterialButton(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5.r),
+                          side: const BorderSide(color: Colors.white)),
+                      onPressed: () {
+                        // var loginModel = LoginModel(
+                        //     clientId: "A82444C1-17BA-47F5-B086-E42C25FAB241",
+                        //     email: emailTextController.text.trim().toString(),
+                        //     password:
+                        //         passwordTextController.text.trim().toString(),
+                        //     userInfo: "",
+                        //     accessToken: "");
+                        // Repository.login(context, loginModel);
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //     builder: (context) => DashBoardScreen(appModel: "null",),
+                        //   ),
+                        // );
+                      },
+                      child: Text(
+                        'Continue',
+                        style: AppTextStyle.appTextStyleSmall(context),
+                      ),
+                    ),
                   ),
                 ],
               ),

@@ -1,24 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:redifly_flutter/src/login/views/login_screen.dart';
 
-import '../../../common/core/app_colors.dart';
 import '../../../common/core/app_image.dart';
 import '../../../common/core/app_text_style.dart';
 import '../../../common/core/responsive.dart';
-import 'login_aircraft_selection_screen.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class LoginUrlScreen extends StatefulWidget {
+  const LoginUrlScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<LoginUrlScreen> createState() => _LoginUrlScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
-  TextEditingController emailTextController =
-      TextEditingController(text: "murali@redifly.com");
-  TextEditingController passwordTextController =
-      TextEditingController(text: "MurS1234-");
+class _LoginUrlScreenState extends State<LoginUrlScreen> {
+  TextEditingController primaryURLTextController =
+      TextEditingController(text: "test.REDiFly.com");
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +45,7 @@ class _LoginScreenState extends State<LoginScreen> {
               margin:
                   EdgeInsets.all(Responsive.isiPad(context) ? 45.r : 36.0.r),
               decoration: BoxDecoration(
-                  color: AppColors.primaryColor,
+                  color: const Color(0xFF737373),
                   borderRadius: BorderRadius.circular(5.0.r),
                   border: Border.all(color: Colors.white)),
               child: Column(
@@ -56,35 +53,45 @@ class _LoginScreenState extends State<LoginScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  controllers(context,
-                      title: "Username",
-                      hint: "Enter Username here...",
-                      controller: emailTextController),
-                  controllers(context,
-                      title: "Password",
-                      hint: "Enter Password here...",
-                      controller: passwordTextController,
-                      obscureText: true),
+                  Row(
+                    // crossAxisAlignment: CrossAxisAlignment.end,
+                    // mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          SizedBox(
+                            height: 25,
+                          ),
+                          Text(
+                            "https:// ",
+                            style: AppTextStyle.appTextStyleRegular(context),
+                          ),
+                        ],
+                      ),
+                      Expanded(
+                        // color: Colors.white,
+                        child: controllers(context,
+                            title: "Set security url",
+                            hint: "test.REDiFly.com",
+                            controller: primaryURLTextController),
+                      ),
+                    ],
+                  ),
                   const SizedBox(height: 9.0),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      MaterialButton(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5.r),
-                          side: const BorderSide(color: Colors.white),
-                        ),
-                        onPressed: () {},
-                        child: Text(
-                          'ADLogin',
-                          style: AppTextStyle.appTextStyleSmall(context),
-                        ),
+                      Text(
+                        "V3 12",
+                        style: AppTextStyle.appTextStyleVerySmall(context),
                       ),
                       const Spacer(),
                       MaterialButton(
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5.r),
                             side: const BorderSide(color: Colors.white)),
+                        disabledColor: Colors.grey,
                         onPressed: () {
                           // var loginModel = LoginModel(
                           //     clientId: "A82444C1-17BA-47F5-B086-E42C25FAB241",
@@ -97,8 +104,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) =>
-                                  const LoginAircraftSelectScreen(),
+                              builder: (context) => const LoginScreen(),
                             ),
                           );
                         },
