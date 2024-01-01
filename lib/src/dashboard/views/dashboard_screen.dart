@@ -5,14 +5,15 @@ import 'package:redifly_flutter/src/dashboard/views/reporting_users.dart';
 
 import '../../../common/core/app_colors.dart';
 import '../../../common/core/app_text_style.dart';
+import '../../../common/enums/app_enum.dart';
 import '../../../common/model/app_model.dart';
+import '../../../common/widgets/app_expansion_tile.dart';
 import '../../../common/widgets/primary_top_bar.dart';
 import '../../../common/widgets/secondary_top_bar.dart';
+import '../models/bottom_bar_model.dart';
 
 class DashBoardScreen extends StatefulWidget {
-  final AppModel appModel;
-
-  const DashBoardScreen({super.key, required this.appModel});
+  const DashBoardScreen({super.key});
 
   @override
   State<DashBoardScreen> createState() => _DashBoardScreenState();
@@ -23,6 +24,67 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
   void initState() {
     super.initState();
   }
+
+  final workOrderList = const [
+    WorkOrderTileModel("Order Defects", 12),
+    WorkOrderTileModel("Deferred MBL Terms", 0),
+    WorkOrderTileModel("Deferred Defects", 0),
+    WorkOrderTileModel("Briefing Cards", 0),
+    WorkOrderTileModel("Cabin Defects", 0),
+  ];
+
+  BottomBarMenu bottomBarMenu = BottomBarMenu.dashboard;
+
+  List<BottomBarModel> bottomBarItems = [
+    BottomBarModel(
+      title: "Dashboard",
+      menu: BottomBarMenu.dashboard,
+      selectedIconData: const Icon(
+        Icons.menu,
+        color: Colors.white,
+      ),
+      iconData: const Icon(
+        Icons.menu,
+        color: Colors.grey,
+      ),
+    ),
+    BottomBarModel(
+      title: "Flights",
+      menu: BottomBarMenu.flight,
+      selectedIconData: const Icon(
+        Icons.airplanemode_active,
+        color: Colors.white,
+      ),
+      iconData: const Icon(
+        Icons.airplanemode_active,
+        color: Colors.grey,
+      ),
+    ),
+    BottomBarModel(
+      title: "Aircraft Status",
+      menu: BottomBarMenu.aircraft,
+      selectedIconData: const Icon(
+        Icons.settings,
+        color: Colors.white,
+      ),
+      iconData: const Icon(
+        Icons.settings_outlined,
+        color: Colors.grey,
+      ),
+    ),
+    BottomBarModel(
+      title: "Service",
+      menu: BottomBarMenu.service,
+      selectedIconData: const Icon(
+        Icons.settings,
+        color: Colors.white,
+      ),
+      iconData: const Icon(
+        Icons.settings_outlined,
+        color: Colors.grey,
+      ),
+    ),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -51,30 +113,150 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                   const SizedBox(
                     height: 9,
                   ),
-                  SecondaryTopBar(context: context),
-                  const Padding(
-                    padding: EdgeInsets.all(9.0),
-                    child: Divider(
-                      thickness: 1,
-                      color: AppColors.secondaryColor,
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: AppExpansionTile(
+                      title: "Cabin Defects",
+                      trailingIcon: Icons.calendar_month,
+                      noRecordsDescription: "No records to display",
                     ),
                   ),
-                  ReportingUsers(onTap: () {
-                    // showReportDialog(context);
-                  }),
-                  const Padding(
-                    padding: EdgeInsets.all(9.0),
-                    child: Divider(
-                      thickness: 1,
-                      color: AppColors.secondaryColor,
+                  const SizedBox(
+                    height: 9,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: AppExpansionTile(
+                      title: "Current Flights",
+                      trailingIcon: Icons.calendar_month,
+                      noRecordsDescription:
+                          "There are currently no sectors in progress",
                     ),
                   ),
-                  Expanded(
-                    child: AddDocuments(
-                      documents: widget.appModel.documents,
+                  const SizedBox(
+                    height: 9,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: AppExpansionTile(
+                      title: "Work Orders",
+                      trailingIcon: Icons.calendar_month,
+                      noRecordsDescription: "No records to display",
+                      expandedWidget: SizedBox(
+                        child: GridView.builder(
+                          padding: EdgeInsets.all(10),
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 3,
+                            childAspectRatio: 4,
+                            mainAxisSpacing: 20,
+                            crossAxisSpacing: 20,
+                          ),
+                          shrinkWrap: true,
+                          itemCount: workOrderList.length,
+                          itemBuilder: (context, index) => ListTile(
+                            tileColor: AppColors.secondaryColor,
+                            title: Text(workOrderList[index].title,
+                                style: AppTextStyle.appTextStyleRegular(context)),
+                            subtitle: Text("(${workOrderList[index].count})",
+                                style:
+                                    AppTextStyle.appTextStyleVerySmall(context)),
+                            leading: const Icon(
+                              Icons.accessible_sharp,
+                              size: 40,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
                   ),
+                  const SizedBox(
+                    height: 9,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: AppExpansionTile(
+                      title: "Maintenance Release",
+                      trailingIcon: Icons.calendar_month,
+                      noRecordsDescription: "",
+                    ),
+                  ),
+                  // SecondaryTopBar(context: context),
+                  // const Padding(
+                  //   padding: EdgeInsets.all(9.0),
+                  //   child: Divider(
+                  //     thickness: 1,
+                  //     color: AppColors.secondaryColor,
+                  //   ),
+                  // ),
+                  // ReportingUsers(onTap: () {
+                  //   // showReportDialog(context);
+                  // }),
+                  // const Padding(
+                  //   padding: EdgeInsets.all(9.0),
+                  //   child: Divider(
+                  //     thickness: 1,
+                  //     color: AppColors.secondaryColor,
+                  //   ),
+                  // ),
+                  // Expanded(
+                  //   child: AddDocuments(
+                  //     documents: widget.appModel.documents,
+                  //   ),
+                  // ),
                 ],
+              ),
+            ),
+            bottomNavigationBar: Container(
+              height: 75,
+              decoration: const BoxDecoration(
+                color: AppColors.primaryColor,
+              ),
+              child: ListView.builder(
+                itemCount: bottomBarItems.length,
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context, index) => InkWell(
+                  onTap: () {
+                    setState(() {
+                      bottomBarMenu = bottomBarItems[index].menu;
+                    });
+                  },
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      AnimatedContainer(
+                        duration: const Duration(milliseconds: 500),
+                        curve: Curves.fastLinearToSlowEaseIn,
+                        width: MediaQuery.of(context).size.width /
+                            bottomBarItems.length,
+                        height: 4,
+                        decoration: BoxDecoration(
+                          color: bottomBarMenu == bottomBarItems[index].menu
+                              ? Colors.white
+                              : Colors.transparent,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 6,
+                      ),
+                      bottomBarMenu == bottomBarItems[index].menu
+                          ? bottomBarItems[index].selectedIconData
+                          : bottomBarItems[index].iconData,
+                      Text(
+                        bottomBarItems[index].title,
+                        style: TextStyle(
+                            fontSize: 12,
+                            color: bottomBarMenu == bottomBarItems[index].menu
+                                ? Colors.white
+                                : Colors.grey),
+                      ),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ),
           ),
@@ -91,4 +273,11 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
 //     },
 //   );
 // }
+}
+
+class WorkOrderTileModel {
+  final String title;
+  final int count;
+
+  const WorkOrderTileModel(this.title, this.count);
 }

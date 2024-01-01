@@ -1,0 +1,1 @@
+enum BottomBarMenu { dashboard, flight, aircraft, service }
