@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:redifly_flutter/src/dashboard/views/add_documents.dart';
-import 'package:redifly_flutter/src/dashboard/views/reporting_users.dart';
 
 import '../../../common/core/app_colors.dart';
 import '../../../common/core/app_text_style.dart';
 import '../../../common/enums/app_enum.dart';
-import '../../../common/model/app_model.dart';
 import '../../../common/widgets/app_expansion_tile.dart';
 import '../../../common/widgets/primary_top_bar.dart';
-import '../../../common/widgets/secondary_top_bar.dart';
+
+import '../../calendar/views/cal_screen.dart';
 import '../models/bottom_bar_model.dart';
 
 class DashBoardScreen extends StatefulWidget {
@@ -98,114 +96,126 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
         return SafeArea(
           child: Scaffold(
             resizeToAvoidBottomInset: false,
-            body: Padding(
-              padding: const EdgeInsets.all(2.0),
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: Text(
-                      'UTC: $formattedTime',
-                      style: AppTextStyle.appTextStyleVerySmall(context),
+            body: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(2.0),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Text(
+                        'UTC: $formattedTime',
+                        style: AppTextStyle.appTextStyleVerySmall(context),
+                      ),
                     ),
-                  ),
-                  const PrimaryTopBar(),
-                  const SizedBox(
-                    height: 9,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: AppExpansionTile(
-                      title: "Cabin Defects",
-                      trailingIcon: Icons.calendar_month,
-                      noRecordsDescription: "No records to display",
+                    const PrimaryTopBar(),
+                    const SizedBox(
+                      height: 9,
                     ),
-                  ),
-                  const SizedBox(
-                    height: 9,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: AppExpansionTile(
-                      title: "Current Flights",
-                      trailingIcon: Icons.calendar_month,
-                      noRecordsDescription:
-                          "There are currently no sectors in progress",
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: AppExpansionTile(
+                        title: "Cabin Defects",
+                        trailingIcon: Icons.calendar_month,
+                        noRecordsDescription: "No records to display",
+                        onCalendarTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const CalScreen(),
+                            ),
+                          );
+                        },
+                      ),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 9,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: AppExpansionTile(
-                      title: "Work Orders",
-                      trailingIcon: Icons.calendar_month,
-                      noRecordsDescription: "No records to display",
-                      expandedWidget: SizedBox(
-                        child: GridView.builder(
-                          padding: EdgeInsets.all(10),
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 3,
-                            childAspectRatio: 4,
-                            mainAxisSpacing: 20,
-                            crossAxisSpacing: 20,
-                          ),
-                          shrinkWrap: true,
-                          itemCount: workOrderList.length,
-                          itemBuilder: (context, index) => ListTile(
-                            tileColor: AppColors.secondaryColor,
-                            title: Text(workOrderList[index].title,
-                                style: AppTextStyle.appTextStyleRegular(context)),
-                            subtitle: Text("(${workOrderList[index].count})",
-                                style:
-                                    AppTextStyle.appTextStyleVerySmall(context)),
-                            leading: const Icon(
-                              Icons.accessible_sharp,
-                              size: 40,
-                              color: Colors.white,
+                    const SizedBox(
+                      height: 9,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: AppExpansionTile(
+                        title: "Current Flights",
+                        trailingIcon: Icons.calendar_month,
+                        onCalendarTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const CalScreen(),
+                            ),
+                          );
+                        },
+                        noRecordsDescription:
+                            "There are currently no sectors in progress",
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 9,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: AppExpansionTile(
+                        title: "Work Orders",
+                        trailingIcon: Icons.calendar_month,
+                        noRecordsDescription: "No records to display",
+                        onCalendarTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const CalScreen(),
+                            ),
+                          );
+                        },
+                        expandedWidget: SizedBox(
+                          child: GridView.builder(
+                            padding: const EdgeInsets.all(10),
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 3,
+                              childAspectRatio: 4,
+                              mainAxisSpacing: 20,
+                              crossAxisSpacing: 20,
+                            ),
+                            shrinkWrap: true,
+                            itemCount: workOrderList.length,
+                            itemBuilder: (context, index) => ListTile(
+                              tileColor: AppColors.secondaryColor,
+                              title: Text(workOrderList[index].title,
+                                  style:
+                                      AppTextStyle.appTextStyleSmall(context)),
+                              subtitle: Text("(${workOrderList[index].count})",
+                                  style: AppTextStyle.appTextStyleVerySmall(
+                                      context)),
+                              leading: const Icon(
+                                Icons.settings,
+                                size: 40,
+                                color: Colors.white,
+                              ),
                             ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 9,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: AppExpansionTile(
-                      title: "Maintenance Release",
-                      trailingIcon: Icons.calendar_month,
-                      noRecordsDescription: "",
+                    const SizedBox(
+                      height: 9,
                     ),
-                  ),
-                  // SecondaryTopBar(context: context),
-                  // const Padding(
-                  //   padding: EdgeInsets.all(9.0),
-                  //   child: Divider(
-                  //     thickness: 1,
-                  //     color: AppColors.secondaryColor,
-                  //   ),
-                  // ),
-                  // ReportingUsers(onTap: () {
-                  //   // showReportDialog(context);
-                  // }),
-                  // const Padding(
-                  //   padding: EdgeInsets.all(9.0),
-                  //   child: Divider(
-                  //     thickness: 1,
-                  //     color: AppColors.secondaryColor,
-                  //   ),
-                  // ),
-                  // Expanded(
-                  //   child: AddDocuments(
-                  //     documents: widget.appModel.documents,
-                  //   ),
-                  // ),
-                ],
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: AppExpansionTile(
+                        title: "Maintenance Release",
+                        trailingIcon: Icons.calendar_month,
+                        noRecordsDescription: "",
+                        onCalendarTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const CalScreen(),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
             bottomNavigationBar: Container(

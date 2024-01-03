@@ -11,11 +11,11 @@ extension APIEnvi on ApiEnvironment {
   String? endpoint() {
     switch (this) {
       case ApiEnvironment.UAT:
-        return "https://sms.REDiFly.com/api";
+        return "https://test2.redifly.com/api";
       case ApiEnvironment.Dev:
-        return "https://sms.REDiFly.com/api";
+        return "https://test2.redifly.com/api";
       case ApiEnvironment.Prod:
-        return "https://sms.REDiFly.com/api";
+        return "https://test2.redifly.com/api";
       default:
         return null;
     }
@@ -71,7 +71,7 @@ class DioFactory {
   DioFactory._instance() {
     _dio = Dio(
       BaseOptions(
-        baseUrl: ApiEnvironment.Prod.endpoint()!,
+        baseUrl: ApiEnvironment.UAT.endpoint()!,
         headers: {
           HttpHeaders.userAgentHeader: _deviceName,
           // HttpHeaders.authorizationHeader: _authorization,

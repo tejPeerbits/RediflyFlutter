@@ -6,13 +6,15 @@ class AppExpansionTile extends StatefulWidget {
   final IconData trailingIcon;
   final Widget? expandedWidget;
   final String noRecordsDescription;
+  final VoidCallback onCalendarTap;
 
-  AppExpansionTile({
+  const AppExpansionTile({
     super.key,
     required this.title,
     required this.trailingIcon,
     this.expandedWidget,
     required this.noRecordsDescription,
+    required this.onCalendarTap,
   });
 
   @override
@@ -61,18 +63,21 @@ class _AppExpansionTileState extends State<AppExpansionTile> {
               ),
             ),
             const Spacer(),
-            Column(
-              children: [
-                Icon(
-                  widget.trailingIcon,
-                  color: Colors.white,
-                  size: 40,
-                ),
-                Text(
-                  "Calendar",
-                  style: AppTextStyle.appTextStyleVerySmall(context),
-                )
-              ],
+            InkWell(
+              onTap: widget.onCalendarTap,
+              child: Column(
+                children: [
+                  Icon(
+                    widget.trailingIcon,
+                    color: Colors.white,
+                    size: 40,
+                  ),
+                  Text(
+                    "Calendar",
+                    style: AppTextStyle.appTextStyleVerySmall(context),
+                  )
+                ],
+              ),
             )
           ],
         ),
